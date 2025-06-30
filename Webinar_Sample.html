@@ -238,24 +238,30 @@
   document.getElementById("iframe1").src = iframe1Src;
   document.getElementById("iframe2").src = iframe2Src;
 
-  // Polling function to check status.txt
-  async function pollStatus() {
-    try 
-    {
-      const url = 'https://gist.githubusercontent.com/cmeory/15fde702001e74f8394c990dd2ea0edc/raw/gistfile1.txt?cb=' + Date.now();
+  let lastStatus = null;
 
+  async function pollStatus() {
+    try {
+      const url = 'https://gist.githubusercontent.com/cmeory/15fde702001e74f8394c990dd2ea0edc/raw/gistfile1.txt?cb=' + Date.now();
       const response = await fetch(url, { cache: 'no-store', mode: 'cors' });
       if (!response.ok) throw new Error('Status file not found');
 
       const text = await response.text();
 
-        // Remove comments and blank lines
       const lines = text
         .split('\n')
         .map(line => line.trim())
         .filter(line => line && !line.startsWith('#'));
 
-      const status = lines[0]?.toLowerCase(); // Use the first uncommented line
+      const status = lines[0]?.toLowerCase();
+
+      // Detect change to "live"
+      if (status === 'live' && lastStatus !== 'live') {
+        window.location.reload();
+        return; // Stop further execution after reload is triggered
+      }
+
+      lastStatus = status;
 
       if (status === 'live') {
         document.getElementById("waiting-message").style.display = "none";
@@ -266,19 +272,18 @@
         document.getElementById("content").style.display = "none";
         document.getElementById("ended-message").style.display = "flex";
       } else {
-        // Default to waiting if unknown or commented out
         document.getElementById("waiting-message").style.display = "flex";
         document.getElementById("content").style.display = "none";
         document.getElementById("ended-message").style.display = "none";
       }
     } catch (e) {
       console.warn("Could not fetch status.txt:", e);
-      // Default to waiting on error
       document.getElementById("waiting-message").style.display = "flex";
       document.getElementById("content").style.display = "none";
       document.getElementById("ended-message").style.display = "none";
     }
 }
+
 
   // Poll every 30 seconds
   pollStatus();
