@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MGEU Webinar</title>
+
+  <!-- 🔧 CONFIGURATION: Easy to update -->
+  <script>
+    const eventTitle = "Webinar 2025 – Placeholder Title";
+
+    // Your iframe URLs
+    const iframe1Src = "https://teams.microsoft.com/convene/townhall?eventId=33562b50-5953-45b2-be64-f760092dbccd@318e7770-1b85-494c-8353-e7ecbd43a3be&sessionId=94307d8c-eac2-4c07-9773-24f23aa9e546";
+    const iframe2Src = "https://docs.google.com/forms/d/e/1FAIpQLScu0hzskeG_LdepanWumclCZhLZNbIwXHH1bTXdFOMzVv045g/viewform?embedded=true";
+    
+  </script>
+
+  <!-- Load Public Sans font -->
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Public Sans', sans-serif;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+#banner {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1f2844;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  height: 60px;
+}
+
+#banner img {
+  height: 40px;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+#banner h1 {
+  font-weight: 800;
+  margin: 0;
+  flex-grow: 1;
+  text-align: center;
+
+  /* Allow wrapping */
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  /* Responsive font size */
+  font-size: clamp(1rem, 4vw, 2rem);
+}
+#main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+    #waiting-message, #ended-message {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      font-size: 1.5rem;
+      background-color: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+    }
+
+#content {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: nowrap; /* default for desktop */
+  overflow: hidden;
+}
+
+    .teams-container {
+      display: flex;          /* add flex */
+      width: 70%;
+      min-width: 400px;
+      height: 100%;
+    }
+
+    .google-doc {
+      width: 30%;
+      min-width: 350px;
+      height: 100%;
+      padding: 10px;
+      border: none;           /* Remove border */
+      box-sizing: border-box; /* Ensure padding doesn’t break width */
+      background-color: #f2f2f2;
+    }
+
+
+    .left-bar {
+      width: 15px;
+      background-color: #f2f2f2;
+      flex-shrink: 0;         /* prevent shrinking */
+    }
+
+    .teams {
+      flex-grow: 1;           /* take all remaining width */
+      height: 100%;
+      border: none;
+      margin: 0;              /* remove any default margin */
+      padding: 0;             /* remove padding */
+    }
+
+    #separator-bar {
+      height: 15px; /* thin bar */
+      background-color: #f2f2f2;
+      width: 100%;
+    }
+
+    #footer {
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      color: #333; /* darker text for contrast */
+      font-family: 'Public Sans', sans-serif;
+      font-weight: 600;
+    }
+
+    /* Responsive styles */
+
+  /* Responsive styles */
+
+  @media (max-width: 1024px) {
+    #content {
+      flex-wrap: wrap; /* allow vertical stacking */
+      flex-direction: column;
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    .left-bar {
+      display: none;
+    }
+    #separator-bar {
+        display: none;
+    }
+    .teams-container,
+    .google-doc {
+      width: 100% !important;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+    .teams-container {
+      flex-basis: 50%;
+    }
+    .google-doc {
+      flex-basis: 50%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #banner h1 {
+      font-size: 1rem;
+    }
+    #waiting-message,
+    #ended-message {
+      font-size: 1.2rem;
+      padding: 10px;
+    }
+  }
+  </style>
+</head>
+
+<body>
+
+  <div id="banner">
+    <img src="https://www.mgeu.ca/img/main.svg?1744836018" alt="MGEU Logo" />
+    <h1 id="event-title"></h1>
+  </div>
+
+  <!-- Grey separator bar -->
+  <div id="separator-bar"></div>
+
+  <div id="main-content">
+    <div id="waiting-message">
+      The Webinar will begin shortly. Please wait...
+    </div>
+
+    <div id="ended-message" style="display:none;">
+      The Webinar has ended. Thank you for attending.
+    </div>
+
+    <div id="content">
+      <div class="teams-container">
+        <div class="left-bar"></div>
+        <iframe id="iframe1" class="teams" allowfullscreen allow="autoplay"></iframe>
+      </div>
+      <iframe id="iframe2" class="google-doc"></iframe>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    &copy; 2025 MGEU. All rights reserved.
+  </footer>
+
+<script>
+  // Set dynamic content from config
+  document.getElementById("event-title").textContent = eventTitle;
+  document.getElementById("iframe1").src = iframe1Src;
+  document.getElementById("iframe2").src = iframe2Src;
+
+  // Polling function to check status.txt
+  async function pollStatus() {
+    try 
+    {
+      const url = 'https://gist.githubusercontent.com/cmeory/15fde702001e74f8394c990dd2ea0edc/raw/gistfile1.txt?cb=' + Date.now();
+
+      const response = await fetch(url, { cache: 'no-store', mode: 'cors' });
+      if (!response.ok) throw new Error('Status file not found');
+
+      const text = await response.text();
+
+        // Remove comments and blank lines
+      const lines = text
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line && !line.startsWith('#'));
+
+      const status = lines[0]?.toLowerCase(); // Use the first uncommented line
+
+      if (status === 'live') {
+        document.getElementById("waiting-message").style.display = "none";
+        document.getElementById("ended-message").style.display = "none";
+        document.getElementById("content").style.display = "flex";
+      } else if (status === 'ended') {
+        document.getElementById("waiting-message").style.display = "none";
+        document.getElementById("content").style.display = "none";
+        document.getElementById("ended-message").style.display = "flex";
+      } else {
+        // Default to waiting if unknown or commented out
+        document.getElementById("waiting-message").style.display = "flex";
+        document.getElementById("content").style.display = "none";
+        document.getElementById("ended-message").style.display = "none";
+      }
+    } catch (e) {
+      console.warn("Could not fetch status.txt:", e);
+      // Default to waiting on error
+      document.getElementById("waiting-message").style.display = "flex";
+      document.getElementById("content").style.display = "none";
+      document.getElementById("ended-message").style.display = "none";
+    }
+}
+
+  // Poll every 30 seconds
+  pollStatus();
+  setInterval(pollStatus, 5000);
+</script>
+
+</body>
+</html>
