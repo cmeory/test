@@ -255,10 +255,10 @@
 
       const status = lines[0]?.toLowerCase();
 
-      // Detect change to "live"
-      if (status === 'live' && lastStatus !== 'live') {
+      // Reload only once when transitioning to "live"
+      if (status === 'live' && lastStatus && lastStatus !== 'live') {
         window.location.reload();
-        return; // Stop further execution after reload is triggered
+        return;
       }
 
       lastStatus = status;
