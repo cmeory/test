@@ -29,42 +29,41 @@
       overflow: hidden;
     }
 
-#banner {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #1f2844;
-  color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  height: 60px;
-}
+    #banner {
+      position: relative;
+      background-color: #1f2844;
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      height: 60px;
+    }
 
-#banner img {
-  height: 40px;
-  margin-right: 15px;
-  flex-shrink: 0;
-}
+    #banner img {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 40px;
+    }
 
-#banner h1 {
-  font-weight: 800;
-  margin: 0;
-  flex-grow: 1;
-  text-align: center;
+    #banner h1 {
+      margin: 0;
+      font-weight: 800;
+      font-size: clamp(1rem, 4vw, 2rem);
+      text-align: center;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none; /* so it doesn't block the logo from being clickable */
+    }
 
-  /* Allow wrapping */
-  white-space: normal;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-
-  /* Responsive font size */
-  font-size: clamp(1rem, 4vw, 2rem);
-}
-#main-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
+    #main-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
     #waiting-message, #ended-message {
       display: flex;
@@ -77,12 +76,12 @@
       padding: 20px;
     }
 
-#content {
-  flex-grow: 1;
-  display: flex;
-  flex-wrap: nowrap; /* default for desktop */
-  overflow: hidden;
-}
+    #content {
+      flex-grow: 1;
+      display: flex;
+      flex-wrap: nowrap; /* default for desktop */
+      overflow: hidden;
+    }
 
     .teams-container {
       display: flex;          /* add flex */
@@ -174,6 +173,29 @@
       padding: 10px;
     }
   }
+
+  @media (max-width: 768px) {
+  #banner {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  #banner img {
+    position: static;
+    transform: none;
+    margin-right: 15px;
+  }
+
+  #banner h1 {
+    position: static;
+    transform: none;
+    width: auto;
+    text-align: center;
+    flex-grow: 1;
+    pointer-events: auto;
+  }
+}
   </style>
 </head>
 
