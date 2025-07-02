@@ -195,29 +195,34 @@
     flex-grow: 1;
     pointer-events: auto;
   }
-    @media screen and (orientation: landscape) {
-  body::before {
-    content: "Please rotate your device";
+
+  @media screen and (orientation: landscape) {
+    #orientation-lock {
+      display: flex;
+    }
+  }
+  
+  #orientation-lock {
+    display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #000;
-    color: #fff;
-    font-size: 2em;
-    display: flex;
+    inset: 0;
+    background: black;
+    color: white;
+    font-size: 1.5em;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    text-align: center;
   }
-}
+    
 }
   </style>
 </head>
 
 <body>
-
+ <div id="orientation-lock">
+    Please rotate your device to portrait mode.
+  </div>
   <div id="banner">
     <img src="https://www.mgeu.ca/img/main.svg?1744836018" alt="MGEU Logo" />
     <h1 id="event-title"></h1>
