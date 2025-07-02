@@ -19,76 +19,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet" />
 
   <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100vh; /* was 100% — change to 100vh */
-  font-family: 'Public Sans', sans-serif;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-#orientation-lock {
-  display: none;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  background-color: black !important;
-  color: white !important;
-  font-size: 2em !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center !important;
-  z-index: 999999 !important;
-  padding: 1rem !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
-  user-select: none;
-}
-
-@media screen and (orientation: landscape) {
-  #orientation-lock {
-    display: flex !important;
-  }
-  #page-content {
-    display: none !important;
-  }
-}
-
-@media screen and (orientation: portrait) {
-  #orientation-lock {
-    display: none !important;
-  }
-  #page-content {
-    display: block !important;
-  }
-}
-
-#page-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-#main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-#content {
-  flex: 1;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  min-height: 0;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Public Sans', sans-serif;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
     #banner {
       position: relative;
@@ -119,6 +58,12 @@ html, body {
       pointer-events: none; /* so it doesn't block the logo from being clickable */
     }
 
+    #main-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
     #waiting-message, #ended-message {
       display: flex;
@@ -131,7 +76,12 @@ html, body {
       padding: 20px;
     }
 
-
+    #content {
+      flex-grow: 1;
+      display: flex;
+      flex-wrap: nowrap; /* default for desktop */
+      overflow: hidden;
+    }
 
     .teams-container {
       display: flex;          /* add flex */
@@ -245,50 +195,72 @@ html, body {
     flex-grow: 1;
     pointer-events: auto;
   }
+}
 
+#orientation-lock {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: black;
+  color: white;
+  font-size: 2em;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 9999;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+@media screen and (orientation: landscape) and (max-width: 768px) {
+  #orientation-lock {
+    display: flex;
+  }
 
+  body > *:not(#orientation-lock) {
+    display: none !important;
+  }
 
-
- 
+  body {
+    overflow: hidden;
+  }
+}
   </style>
 </head>
 
 <body>
- <div id="orientation-lock">
+  <div id="orientation-lock">
     Please rotate your device to portrait mode.
   </div>
-  <div id="page-content">
-    <div id="banner">
-      <img src="https://www.mgeu.ca/img/main.svg?1744836018" alt="MGEU Logo" />
-      <h1 id="event-title"></h1>
-    </div>
-  
-    <!-- Grey separator bar -->
-    <div id="separator-bar"></div>
-  
-    <div id="main-content">
-      <div id="waiting-message">
-        The Webinar will begin shortly. Please wait...
-      </div>
-  
-      <div id="ended-message" style="display:none;">
-        The Webinar has ended. Thank you for attending.
-      </div>
-  
-      <div id="content">
-        <div class="teams-container">
-          <div class="left-bar"></div>
-          <iframe id="iframe1" class="teams" allowfullscreen allow="autoplay"></iframe>
-        </div>
-        <iframe id="iframe2" class="google-doc"></iframe>
-      </div>
-    </div>
-  
-    <!-- Footer -->
-    <footer id="footer">
-      &copy; 2025 MGEU. All rights reserved.
-    </footer>
+  <div id="banner">
+    <img src="https://www.mgeu.ca/img/main.svg?1744836018" alt="MGEU Logo" />
+    <h1 id="event-title"></h1>
   </div>
+
+  <!-- Grey separator bar -->
+  <div id="separator-bar"></div>
+
+  <div id="main-content">
+    <div id="waiting-message">
+      The Webinar will begin shortly. Please wait...
+    </div>
+
+    <div id="ended-message" style="display:none;">
+      The Webinar has ended. Thank you for attending.
+    </div>
+
+    <div id="content">
+      <div class="teams-container">
+        <div class="left-bar"></div>
+        <iframe id="iframe1" class="teams" allowfullscreen allow="autoplay"></iframe>
+      </div>
+      <iframe id="iframe2" class="google-doc"></iframe>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    &copy; 2025 MGEU. All rights reserved.
+  </footer>
 
 <script>
   // Set dynamic content from config
@@ -342,21 +314,6 @@ html, body {
     }
 }
 
-function checkOrientation() {
-  if (window.matchMedia("(orientation: landscape)").matches) {
-    document.getElementById('orientation-lock').style.display = 'flex';
-    document.getElementById('page-content').style.display = 'none';
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.getElementById('orientation-lock').style.display = 'none';
-    document.getElementById('page-content').style.display = 'block';
-    document.body.style.overflow = 'auto';
-  }
-}
-
-window.addEventListener('resize', checkOrientation);
-window.addEventListener('orientationchange', checkOrientation);
-window.addEventListener('load', checkOrientation);
 
   // Poll every 30 seconds
   pollStatus();
