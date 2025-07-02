@@ -211,19 +211,7 @@
   padding: 1rem;
   box-sizing: border-box;
 }
-@media screen and (orientation: landscape) and (max-width: 950px) {
-  #orientation-lock {
-    display: flex;
-  }
 
-  body > *:not(#orientation-lock) {
-    display: none !important;
-  }
-
-  body {
-    overflow: hidden;
-  }
-}
   </style>
 </head>
 
@@ -313,7 +301,30 @@
       document.getElementById("ended-message").style.display = "none";
     }
 }
+function isMobileDevice() {
+  return /Mobi|Android|iPhone|iPod/i.test(navigator.userAgent);
+}
 
+function checkOrientationLock() {
+  const isLandscape = window.innerWidth > window.innerHeight;
+  const isMobile = isMobileDevice();
+  const orientationLock = document.getElementById('orientation-lock');
+  const pageContent = document.getElementById('page-content');
+
+  if (isLandscape && isMobile) {
+    orientationLock.style.display = 'flex';
+    pageContent.style.display = 'none';
+    document.body.style.overflow = 'hidden';
+  } else {
+    orientationLock.style.display = 'none';
+    pageContent.style.display = 'block';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+window.addEventListener('load', checkOrientationLock);
+window.addEventListener('resize', checkOrientationLock);
+window.addEventListener('orientationchange', checkOrientationLock);
 
   // Poll every 30 seconds
   pollStatus();
