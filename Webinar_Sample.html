@@ -198,29 +198,33 @@
 
   @media screen and (orientation: landscape) {
     #orientation-lock {
-      display: flex;
+      display: flex !important;
     }
   }
   
   #orientation-lock {
     display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
+    position: fixed !important;
+    inset: 0 !important;  /* shorthand for top:0; right:0; bottom:0; left:0 */
+    width: 100% !important;
+    height: 100% !important;
     background: black;
     color: white;
     font-size: 2em;
     justify-content: center;
     align-items: center;
-    z-index: 99999;
+    z-index: 999999 !important;
     text-align: center;
-    padding: 2rem;
+    padding: 1rem;
     box-sizing: border-box;
+    overflow: hidden;
   }
+
+  @media screen and (orientation: landscape) {
+    #page-content {
+      display: none !important;
+    }
+  }    
   </style>
 </head>
 
@@ -228,36 +232,38 @@
  <div id="orientation-lock">
     Please rotate your device to portrait mode.
   </div>
-  <div id="banner">
-    <img src="https://www.mgeu.ca/img/main.svg?1744836018" alt="MGEU Logo" />
-    <h1 id="event-title"></h1>
-  </div>
-
-  <!-- Grey separator bar -->
-  <div id="separator-bar"></div>
-
-  <div id="main-content">
-    <div id="waiting-message">
-      The Webinar will begin shortly. Please wait...
+  <div id="page-content">
+    <div id="banner">
+      <img src="https://www.mgeu.ca/img/main.svg?1744836018" alt="MGEU Logo" />
+      <h1 id="event-title"></h1>
     </div>
-
-    <div id="ended-message" style="display:none;">
-      The Webinar has ended. Thank you for attending.
-    </div>
-
-    <div id="content">
-      <div class="teams-container">
-        <div class="left-bar"></div>
-        <iframe id="iframe1" class="teams" allowfullscreen allow="autoplay"></iframe>
+  
+    <!-- Grey separator bar -->
+    <div id="separator-bar"></div>
+  
+    <div id="main-content">
+      <div id="waiting-message">
+        The Webinar will begin shortly. Please wait...
       </div>
-      <iframe id="iframe2" class="google-doc"></iframe>
+  
+      <div id="ended-message" style="display:none;">
+        The Webinar has ended. Thank you for attending.
+      </div>
+  
+      <div id="content">
+        <div class="teams-container">
+          <div class="left-bar"></div>
+          <iframe id="iframe1" class="teams" allowfullscreen allow="autoplay"></iframe>
+        </div>
+        <iframe id="iframe2" class="google-doc"></iframe>
+      </div>
     </div>
+  
+    <!-- Footer -->
+    <footer id="footer">
+      &copy; 2025 MGEU. All rights reserved.
+    </footer>
   </div>
-
-  <!-- Footer -->
-  <footer id="footer">
-    &copy; 2025 MGEU. All rights reserved.
-  </footer>
 
 <script>
   // Set dynamic content from config
